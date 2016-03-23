@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+
+        <title>Python testing tools</title>
+
+        <meta name="description" content="Pelican - A static site generator written in Python">
+        <meta name="author" content="Leonardo Giordani">
+
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+        <link rel="stylesheet" href="reveal.js/css/reveal.css">
+        <link rel="stylesheet" href="reveal.js/css/theme/moon.css" id="theme">
+        <link rel="stylesheet" href="custom.css" id="theme">
+
+        <!-- Code syntax highlighting -->
+        <link rel="stylesheet" href="reveal.js/lib/css/zenburn.css">
+
+        <!-- Printing and PDF exports -->
+        <script>
+            var link = document.createElement( 'link' );
+            link.rel = 'stylesheet';
+            link.type = 'text/css';
+            link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+            document.getElementsByTagName( 'head' )[0].appendChild( link );
+        </script>
+
+        <!--[if lt IE 9]>
+        <script src="reveal.js/lib/js/html5shiv.js"></script>
+        <![endif]-->
+    </head>
+
+    <body>
+
+        <div class="reveal">
+
+            <div class="slides">
+                <section data-background="images/chalkboard.jpg">
+                    <h1>Python testing tools</h1>
+                    <h3>Introduction and live examples</h3>
+                    <h4>Leonardo Giordani - March 23, 2016 - Python Milano Meetup </h4>
+                    <p><a target="_blank" href="https://twitter.com/tw_lgiordani">@tw_lgiordani</a></p>
+                </section>
+
+
+                <section data-background="images/chalkboard.jpg">
+                    <h3>Slides already available</h3>
+                    <p><a href="https://github.com/PythonMilano/python-open-source-projects-setup">https://github.com/PythonMilano/python-open-source-projects-setup</a></p>
+                    <p><code>$ git clone https://github.com/PythonMilano/python-open-source-projects-setup.git</code></p>
+                </section>
+
+                <section data-background="images/the_digital_cat.jpg">
+                </section>
+
+                <section data-background="images/hands_raised.jpg">
+                    <h2>Questions are welcomed during the talk</h2>
+                </section>
+
+                <section data-background="images/chalkboard.jpg">
+                    <section>
+                        <h2>Pytest</h2>
+                    </section>
+
+                    <section>
+                        <h3>Installation</h3>
+                        <p><code class="hljs">pip install pytest</code></p>
+                    </section>
+
+                    <section>
+                        <h3>Project layout</h3>
+                        <pre><code class="hljs sh">yourpackage/
+pytest.ini <--- your conf
+tests/ <------- your tests
+venv/</code></pre>
+                    </section>
+
+                    <section>
+                        <h3>pytest.ini</h3>
+                        <pre><code class="hljs">[pytest]
+minversion   = 2.0
+norecursedirs= .git .tox venv*
+python_files = test*.py</code></pre>
+                    </section>
+
+                    <section>
+                        <p>Remember to install your package in edit mode!</p>
+                        <p><code class="hljs">$ pip install -e .</code></p>
+                    </section>
+
+                    <section>
+                        <p>Run your tests</p>
+                        <p><code class="hljs">$ py.test</code></p>
+                    </section>
+
+                    <section>
+                        <p>A bit more detailed</p>
+                        <p><code class="hljs">$ py.test -v</code></p>
+                    </section>
+
+                    <section>
+                        <p>Sometimes you need the good old print</p>
+                        <p><code class="hljs">$ py.test -s</code></p>
+                    </section>
+
+                    <section data-background="images/monkey_island_dance.png">
+                        <h1>Live demo</h1>
+                    </section>
+
+                </section>
+
+                <section data-background="images/chalkboard.jpg">
+                    <section>
+                        <h2>Tox</h2>
+                    </section>
+
+                    <section>
+                        <h3>Installation</h3>
+                        <p><code class="hljs">pip install tox</code></p>
+                    </section>
+
+                    <section>
+                        <h3>Project layout</h3>
+                        <pre><code class="hljs sh">yourpackage/
+pytest.ini
+tests/
+tox.ini <--- your conf
+venv/</code></pre>
+                    </section>
+
+                    <section>
+                        <h3>tox.ini</h3>
+                        <pre><code class="hljs ini">[tox]
+envlist = py27
+
+[testenv]
+commands= py.test [] tests
+deps= -rrequirements.txt
+      -rrequirements_test.txt
+      setuptools
+</code></pre>
+                    </section>
+
+                    <section>
+                        <p>The <code>[]</code> symbol carries command line parameters</p>
+                        <p><code class="hljs">tox -sv --> py.test -sv</code></p>
+                    </section>
+
+                    <section>
+                        <p>If you change your <code>requirements*.txt</code> rebuild everything</p>
+                        <p><code class="hljs">$ tox -r</code></p>
+                    </section>
+
+                    <section data-background="images/indiana_jones_last_crusade.jpg">
+                        <h1>Live demo</h1>
+                    </section>
+
+                </section>
+
+                <section data-background="images/chalkboard.jpg">
+                    <section>
+                        <h2>Mocks</h2>
+                    </section>
+
+                    <section>
+                        <h3>Installation</h3>
+                        <p><code class="hljs">$ pip install mock # python 2.x</code></p>
+                        <p>Included in the standard library of Python 3.x</p>
+                    </section>
+
+                    <section>
+                        <p>When you need something that just behaves as you want</p>
+                        <pre><code class="hljs python">m = mock.Mock()
+m.somemethod.return_value = 5
+assert m.somemethod() == 5
+                        </code></pre>
+                    </section>
+
+                    <section>
+                        <p>If you need to perform something more complex</p>
+                        <pre><code class="hljs python">m = mock.Mock()
+def afunction():
+    # do complex stuff
+    # a lot of it
+    return result
+m.somemethod.side_effect = afunction
+                        </code></pre>
+                    </section>
+
+                    <section>
+                        <p>If you need to change the behaviour of something you do not control</p>
+                        <pre><code class="hljs python">with mock.patch('datetime.datetime') as md:
+    md.now.return_value = datetime.date(2010, 1, 2)
+    call_your_API()
+                        </code></pre>
+                    </section>
+
+                    <section data-background="images/day_of_the_tentacle.jpg">
+                        <h1>Live demo</h1>
+                    </section>
+
+                </section>
+
+                <section data-background="images/chalkboard.jpg">
+                    <section>
+                        <h2>Travis CI</h2>
+                    </section>
+
+                    <section>
+                        <h3>https://travis-ci.org</h3>
+                        <img src="images/travis1.png" />
+                    </section>
+
+                    <section>
+                        <h3>Project layout</h3>
+                        <pre><code class="hljs sh">yourpackage/
+pytest.ini
+tests/
+tox.ini
+.travis.yml <--- your conf
+venv/</code></pre>      
+                    </section>
+
+                    <section>
+                        <h3>.travis.yml</h3>
+                        <pre><code class="hljs yml">language: python
+
+python:
+  - "2.7"
+  - "pypy"
+
+install:
+  - "pip install -r requirements.txt --use-mirrors"
+
+script:
+  - "python setup.py test"
+</code></pre>
+                    </section>
+
+                    <section data-background="images/sam_and_max.jpg">
+                        <h1>Live demo</h1>
+                    </section>
+
+                </section>
+
+                <section data-background="images/chalkboard.jpg">
+                    <section>
+                        <h2>Some resources</h2>
+                        <ul>
+                            <li>Sandi Metz: The Magic Tricks of Testing (Rails Conf 2013) - <a href="https://youtu.be/URSWYvyc42M" target="_blank">Video</a> and <a target="_blank" href="https://speakerdeck.com/skmetz/magic-tricks-of-testing-railsconf">slides</a></li>
+                            <li>Official documentation (use it and contribute!)
+                                <ul>
+                                    <li><a target="_blank" href="https://pytest.org/latest/contents.html">pytest</a></li>
+                                    <li><a target="_blank" href="https://tox.readthedocs.org/en/latest/">tox</a></li>
+                                    <li><a target="_blank" href="https://docs.python.org/3/library/unittest.mock.html">mock</a></li>
+                                    <li><a target="_blank" href="https://docs.travis-ci.com/">Travis CI</a></li>
+                                </ul>
+                            </li>
+                            <li>The Digital Cat on TDD - <a target="_blank" href="http://blog.thedigitalcatonline.com/categories/tdd/">blog posts</a></li>
+                        </ul>
+                    </section>
+                </section>
+
+                <section data-background="images/chalkboard_thanks.jpg">
+                    <h1>Thank you!</h1>
+                    <p>Special thanks to <a target="_blank" href="https://github.com/cstrap">cstrap</a>, <a target="_blank" href="https://twitter.com/gekorob">@gekorob</a>, <a target="_blank" href="http://pythonmilano.xyz">Python Milano</a></p>
+                </section>
+
+            </div>
+
+        </div>
+
+        <script src="reveal.js/lib/js/head.min.js"></script>
+        <script src="reveal.js/js/reveal.js"></script>
+
+        <script>
+
+            // Full list of configuration options available at:
+            // https://github.com/hakimel/reveal.js#configuration
+            Reveal.initialize({
+                controls: true,
+                progress: true,
+                history: true,
+                center: true,
+
+                transition: 'convex', // none/fade/slide/convex/concave/zoom
+
+                // Optional reveal.js plugins
+                dependencies: [
+                    { src: 'reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+                    { src: 'reveal.js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: 'reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: 'reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+                    { src: 'reveal.js/plugin/zoom-js/zoom.js', async: true },
+                    { src: 'reveal.js/plugin/notes/notes.js', async: true }
+                ]
+            });
+
+        </script>
+
+    </body>

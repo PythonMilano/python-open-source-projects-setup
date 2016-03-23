@@ -1,0 +1,11 @@
+.reveal code {
+	color: white;
+}
+
+.reveal code.hljs {
+	font-size: 120%;
+	line-height: 35px;
+	padding-top: 15px;
+	padding-bottom: 15px;
+}
+
